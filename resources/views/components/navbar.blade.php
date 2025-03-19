@@ -1,10 +1,12 @@
-<nav x-data="{ mobileMenuOpen: false }" class="bg-transparent fixed w-full z-10">
+<nav x-data="{ mobileMenuOpen: false, scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 0)"
+    :class="{ 'bg-[#212121]': scrolled, 'bg-transparent': !scrolled }"
+    class="fixed w-full z-30 transition-colors duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <!-- Logo -->
             <div class="flex-shrink-0 flex items-center">
                 <a href="/" class="flex items-center">
-                    {{-- <img class="h-8 w-auto" src="/logo.png" alt="SDN CELEP 3"> --}}
+                    <img class="h-8 w-auto" src="/assets/img/logo.png" alt="SDN CELEP 3">
                     <span class="ml-2 text-xl font-bold text-white">SDN CELEP 3</span>
                 </a>
             </div>
@@ -28,15 +30,15 @@
                                 clip-rule="evenodd" />
                         </svg>
                     </button>
-                    <div x-show="open" x-transition x-cloak class="absolute mt-2 py-2 w-48 rounded-md shadow-lg z-20"
-                        style="background-color: #212121;">
+                    <div x-show="open" x-transition x-cloak
+                        class="bg-[#212121] absolute mt-2 py-2 w-48 rounded-md shadow-lg z-20">
                         <!-- Add x-cloak to hide initially -->
                         <a href="/profil/visi-misi"
                             class="block px-4 py-2 text-sm text-white hover:text-green-300  cursor-pointer">
                             <!-- Tambahkan cursor-pointer -->
                             Visi Misi Tujuan
                         </a>
-                        <a href="/profil/profil"
+                        <a href="/profil/profil-sekolah"
                             class="block px-4 py-2 text-sm text-white hover:text-green-300  cursor-pointer">
                             <!-- Tambahkan cursor-pointer -->
                             Profil Sekolah
@@ -49,7 +51,7 @@
                             class="block px-4 py-2 text-sm text-white hover:text-green-300  cursor-pointer">
                             Guru dan Karyawan
                         </a>
-                        <a href="/profil/komite"
+                        <a href="/profil/komite-sekolah"
                             class="block px-4 py-2 text-sm text-white hover:text-green-300  cursor-pointer">
                             Komite Sekolah
                         </a>
@@ -202,7 +204,7 @@
                         <a href="/profil/visi-misi"
                             class="block px-3 py-2 rounded-md text-sm text-white hover:text-green-300 ">Visi Misi
                             Tujuan</a>
-                        <a href="/profil/profil"
+                        <a href="/profil/profil-sekolah"
                             class="block px-3 py-2 rounded-md text-sm text-white hover:text-green-300">Profil
                             Sekolah</a>
                         <a href="/profil/kepala-sekolah"
@@ -211,7 +213,7 @@
                         <a href="/profil/guru-karyawan"
                             class="block px-3 py-2 rounded-md text-sm text-white hover:text-green-300">Guru dan
                             Karyawan</a>
-                        <a href="/profil/komite"
+                        <a href="/profil/komite-sekolah"
                             class="block px-3 py-2 rounded-md text-sm text-white hover:text-green-300">Komite
                             Sekolah</a>
                         <a href="/profil/sarana-prasarana"
@@ -323,7 +325,7 @@
 
     <!-- Backdrop overlay (removing click handler) -->
     <div x-show="mobileMenuOpen" class="fixed inset-0 w-screen h-screen md:hidden">
-        <div class="absolute right-0 w-1/2 h-full bg-black/50 backdrop-blur-xs transition-all"></div>
+        <div class="absolute right-0 w-full h-full bg-black/50 backdrop-blur-xs transition-all"></div>
     </div>
 </nav>
 
