@@ -31,8 +31,9 @@
         <div class="sm:px-40 px-10 mb-20 flex flex-wrap sm:flex-nowrap gap-20 justify-center">
             <x-KataPengantar />
             <div class="flex flex-col gap-10 ">
-                <div class="w-80 h-80 bg-blue-700"></div>
-                <div class="w-80 h-80 bg-blue-700"></div>
+                <a href="/ppdb" class="w-80 h-80 "><img src="/assets/img/home/home-ppdb.png" alt=""></a>
+                <a href="/kritik-saran" class="w-80 h-80 "><img src="/assets/img/home/home-saran.jpg"
+                        alt=""></a>
             </div>
         </div>
     </div>

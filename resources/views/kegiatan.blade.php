@@ -35,7 +35,7 @@
 
         <div class="flex flex-wrap justify-center items-center gap-8">
             @foreach ($menuItems as $item)
-                <x-card-menu title="{{ $item['title'] }}" href="{{ $item['href'] }}" />
+                <x-card-menu title="{{ $item['title'] }}" href="{{ $item['href'] }}" backgroundImage="" />
             @endforeach
         </div>
     </div>

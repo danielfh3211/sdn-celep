@@ -5,15 +5,15 @@
         </div>
         <div class="flex sm:flex-col gap-10 justify-start items-center">
             <a href="">
-                <i class="fa-brands fa-youtube fa-2xl"></i>
+                <i class="fa-brands fa-youtube fa-2xl hover:text-red-500 transition-all"></i>
             </a>
             <a href="">
-                <i class="fa-brands fa-instagram fa-2xl"></i>
+                <i class="fa-brands fa-instagram fa-2xl hover:text-red-600"></i>
             </a>
-            <a href="">
-                <i class="fa-brands fa-square-facebook fa-2xl"></i>
+            <a href="" ">
+                <i class="fa-brands fa-square-facebook fa-2xl hover:text-blue-600"></i>
             </a>
-            <a href="">
+            <a href="" class="relative">
                 <i class="fa-brands fa-tiktok fa-2xl"></i>
             </a>
         </div>
