@@ -25,7 +25,7 @@
                 style="background-color: #0000FF">
                 Selamat Datang di Website Resmi SD Negeri Celep 3 Kedawung Sekolah Adiwiyata Nasional</marquee>
         </div>
-        <x-carousel />
+        <x-carousel slides="" />
     </div>
     <div>
         <div class="sm:px-40 px-10 mb-20 flex flex-wrap sm:flex-nowrap gap-20 justify-center">

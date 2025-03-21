@@ -14,8 +14,10 @@
     <x-navbar />
     <!-- Header Banner (optional) - displays the large SDN Celep 3 text seen in your screenshot -->
     <x-page-header title="Pramuka" subtitle="" backgroundImage="/profile-banner.jpg" />
+    <div class="px-10 sm:px-40">
 
-
+        <<x-carousel category="pramuka" />
+    </div>
     <x-footer />
 </body>
 
