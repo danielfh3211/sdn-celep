@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KomiteSekolahController;
 use App\Http\Controllers\PPDBController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,3 +109,32 @@ Route::get('/kekancan', function () {
 Route::get('/kritik-saran', function () {
     return view('kritik-saran');
 });
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::prefix('users')->group(function () {
+        Route::get('/siswa', [UserController::class, 'indexSiswa'])->name('users.siswa');
+        Route::get('/guru', [UserController::class, 'indexGuru'])->name('users.guru');
+        Route::get('/admin', [UserController::class, 'indexAdmin'])->name('users.admin');
+
+        Route::post('/store', [UserController::class, 'store'])->name('users.store');
+        Route::get('/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+        Route::put('/{id}', [UserController::class, 'update'])->name('users.update');
+        Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+    });
+    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
+});
+
