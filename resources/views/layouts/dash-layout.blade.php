@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @stack('styles')
 </head>
 
 <body class="bg-gray-100">
@@ -46,7 +48,7 @@
                 @if (Auth::user()->role === 'guru' || Auth::user()->role === 'siswa' || Auth::user()->role === 'admin')
                     <div>
                         <button id="akademikDropdown"
-                            class="w-full text-left py-2 px-3 font-semibold hover:bg-blue-900 rounded flex items-center justify-between">
+                            class="w-full text-left py-2 px-3 font-semibold hover:bg-blue-900 rounded flex items-center justify-between cursor-pointer">
                             <span><i class="fas fa-book mr-3"></i> Akademik</span>
                             <i class="fas fa-chevron-down"></i>
                         </button>
@@ -65,17 +67,23 @@
                 @if (Auth::user()->role === 'guru' || Auth::user()->role === 'admin')
                     <div>
                         <button id="pagesDropdown"
-                            class="w-full text-left py-2 px-3 font-semibold hover:bg-blue-900 rounded flex items-center justify-between">
+                            class="w-full text-left py-2 px-3 font-semibold hover:bg-blue-900 rounded flex items-center justify-between cursor-pointer">
                             <span><i class="fas fa-file-alt mr-3"></i> Pages</span>
                             <i class="fas fa-chevron-down"></i>
                         </button>
                         <div id="pagesMenu" class="hidden pl-6 space-y-2 mt-2">
-                            <a href="#" class="block py-2 px-3 hover:bg-blue-900 rounded">Home</a>
-                            <a href="#" class="block py-2 px-3 hover:bg-blue-900 rounded">Profil</a>
-                            <a href="#" class="block py-2 px-3 hover:bg-blue-900 rounded">Kegiatan</a>
-                            <a href="#" class="block py-2 px-3 hover:bg-blue-900 rounded">Kombel</a>
-                            <a href="#" class="block py-2 px-3 hover:bg-blue-900 rounded">Ekskul</a>
-                            <a href="#" class="block py-2 px-3 hover:bg-blue-900 rounded">Prestasi</a>
+                            <a href="{{ route('pages.home.index') }}"
+                                class="block py-2 px-3 hover:bg-blue-900 rounded">Home</a>
+                            <a href="{{ route('pages.profil.index') }}"
+                                class="block py-2 px-3 hover:bg-blue-900 rounded">Profil</a>
+                            <a href="{{ route('pages.kegiatan') }}"
+                                class="block py-2 px-3 hover:bg-blue-900 rounded">Kegiatan</a>
+                            <a href="{{ route('pages.kombel') }}"
+                                class="block py-2 px-3 hover:bg-blue-900 rounded">Kombel</a>
+                            <a href="{{ route('pages.ekskul') }}"
+                                class="block py-2 px-3 hover:bg-blue-900 rounded">Ekskul</a>
+                            <a href="{{ route('pages.prestasi') }}"
+                                class="block py-2 px-3 hover:bg-blue-900 rounded">Prestasi</a>
                         </div>
                     </div>
                 @endif
@@ -84,7 +92,7 @@
                 @if (Auth::user()->role === 'admin')
                     <div>
                         <button id="usersDropdown"
-                            class="w-full text-left py-2 px-3 font-semibold hover:bg-blue-900 rounded flex items-center justify-between">
+                            class="w-full text-left py-2 px-3 font-semibold hover:bg-blue-900 rounded flex items-center justify-between cursor-pointer">
                             <span><i class="fas fa-users mr-3"></i> Users</span>
                             <i class="fas fa-chevron-down"></i>
                         </button>
@@ -131,6 +139,19 @@
             <main class="p-4 md:p-6 bg-gray-100 flex-1">
                 @yield('content')
             </main>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="uploadModal" class="fixed inset-0 bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg w-full max-w-md" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Upload New Image</h3>
+                <button type="button" onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <!-- ...rest of your modal content... -->
         </div>
     </div>
 
@@ -184,6 +205,7 @@
             });
         });
     </script>
+    @stack('scripts')
 </body>
 
 </html>

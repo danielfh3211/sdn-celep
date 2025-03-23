@@ -2,19 +2,16 @@
 
 namespace App\View\Components;
 
-use App\Models\CarouselImage;
+use App\Models\SliderImage;
 use Illuminate\View\Component;
 
 class Carousel extends Component
 {
     public $slides;
 
-    public function __construct($category = null)
+    public function __construct()
     {
-        $this->slides = CarouselImage::where('is_active', true)
-            ->when($category, function($query) use ($category) {
-                return $query->where('category', $category);
-            })
+        $this->slides = SliderImage::where('is_active', true)
             ->orderBy('order')
             ->get();
     }

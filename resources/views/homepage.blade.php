@@ -1,3 +1,19 @@
+@extends('layouts.app')
+
+@section('content')
+    {{-- Slider Section --}}
+    <section>
+        <x-slider :slides="$sliderImage" />
+    </section>
+
+    {{-- Kata Pengantar Section --}}
+    <section class="bg-white">
+        <x-kata-pengantar :kataPengantar="$kataPengantar" />
+    </section>
+
+    {{-- Other sections as needed --}}
+@endsection
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,11 +37,12 @@
 
     <div class="sm:px-40 px-10 mb-20 mt-10">
         <div>
-            <marquee behavior="scroll" direction="left" class="text-white font-bold text-2xl  p-2"
+            <marquee behavior="scroll" direction="left" class="text-white font-bold text-2xl p-2"
                 style="background-color: #0000FF">
-                Selamat Datang di Website Resmi SD Negeri Celep 3 Kedawung Sekolah Adiwiyata Nasional</marquee>
+                Selamat Datang di Website Resmi SD Negeri Celep 3 Kedawung Sekolah Adiwiyata Nasional
+            </marquee>
         </div>
-        <x-carousel slides="" />
+        <x-carousel />
     </div>
     <div>
         <div class="sm:px-40 px-10 mb-20 flex flex-wrap sm:flex-nowrap gap-20 justify-center">
