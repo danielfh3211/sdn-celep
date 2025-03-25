@@ -19,10 +19,15 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
+        'username', // NIP/NIS
         'password',
-        'role', // Pastikan kolom role ada di sini
+        'role', // siswa, guru, admin
     ];
+
+    public function siswa()
+    {
+        return $this->hasOne(Siswa::class, 'username', 'username'); // Relasi one-to-one ke tabel siswa
+    }
 
     /**
      * The attributes that should be hidden for serialization.

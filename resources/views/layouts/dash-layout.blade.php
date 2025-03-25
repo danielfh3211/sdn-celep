@@ -9,12 +9,67 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://kit.fontawesome.com/135aca43fe.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+    <style>
+        /* Modal Animations */
+        .modal-enter {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        .modal-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .modal-exit {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .modal-exit-active {
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Backdrop Blur and Transparency */
+        .backdrop-blur-sm {
+            backdrop-filter: blur(5px);
+            background-color: rgba(0, 0, 0, 0.3);
+            /* Transparansi dengan warna hitam */
+        }
+
+        .dropdown-menu {
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease-out;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100">
+    <!-- Fullscreen Page Loader -->
+    <div id="page-loader"
+        class="fixed inset-0 bg-white flex flex-col items-center justify-center z-50 opacity-100 transition-opacity duration-500">
+
+        <!-- Loading Spinner -->
+        <div class="relative w-16 h-16">
+            <div
+                class="absolute inset-0 border-4 border-blue-500 border-solid border-t-transparent rounded-full animate-spin">
+            </div>
+            <div
+                class="absolute inset-0 border-4 border-gray-300 border-solid border-t-transparent rounded-full opacity-30">
+            </div>
+        </div>
+
+        <!-- Loading Text -->
+        <p class="mt-4 text-gray-600 text-sm animate-pulse">Memuat halaman...</p>
+    </div>
+
     <div class="flex min-h-screen">
         <!-- Sidebar -->
         <aside id="sidebar"
@@ -43,7 +98,14 @@
                 </a>
 
                 <!-- Akademik Dropdown -->
-                @if (Auth::user()->role === 'guru' || Auth::user()->role === 'siswa' || Auth::user()->role === 'admin')
+                @if (Auth::user()->role === 'siswa')
+                    <a href="{{ route('siswa.data-nilai') }}"
+                        class="flex items-center py-2 px-3 hover:bg-blue-900 rounded">
+                        <i class="fas fa-book mr-3"></i> Data Nilai
+                    </a>
+                @endif
+
+                @if (Auth::user()->role === 'guru' || Auth::user()->role === 'admin')
                     <div>
                         <button id="akademikDropdown"
                             class="w-full text-left py-2 px-3 font-semibold hover:bg-blue-900 rounded flex items-center justify-between">
@@ -51,12 +113,18 @@
                             <i class="fas fa-chevron-down"></i>
                         </button>
                         <div id="akademikMenu" class="hidden pl-6 space-y-2 mt-2">
-                            <a href="#" class="block py-2 px-3 hover:bg-blue-900 rounded">Data Siswa</a>
-                            <a href="#" class="block py-2 px-3 hover:bg-blue-900 rounded">Data Kelas</a>
-                            <a href="#" class="block py-2 px-3 hover:bg-blue-900 rounded">Naik Kelas</a>
-                            <a href="#" class="block py-2 px-3 hover:bg-blue-900 rounded">Mata Pelajaran</a>
-                            <a href="#" class="block py-2 px-3 hover:bg-blue-900 rounded">Data Nilai</a>
-                            <a href="#" class="block py-2 px-3 hover:bg-blue-900 rounded">Laporan Rapot</a>
+                            <a href="{{ route('akademik.data-siswa') }}"
+                                class="block py-2 px-3 hover:bg-blue-900 rounded">Data Siswa</a>
+                            <a href="{{ route('akademik.data-kelas') }}"
+                                class="block py-2 px-3 hover:bg-blue-900 rounded">Data Kelas</a>
+                            <a href="{{ route('akademik.naik-kelas') }}"
+                                class="block py-2 px-3 hover:bg-blue-900 rounded">Naik Kelas</a>
+                            <a href="{{ route('akademik.mata-pelajaran') }}"
+                                class="block py-2 px-3 hover:bg-blue-900 rounded">Mata Pelajaran</a>
+                            <a href="{{ route('akademik.pilih-siswa-input-nilai') }}"
+                                class="block py-2 px-3 hover:bg-blue-900 rounded">Data Nilai</a>
+                            <a href="{{ route('akademik.pilih-siswa') }}"
+                                class="block py-2 px-3 hover:bg-blue-900 rounded">Laporan Rapot</a>
                         </div>
                     </div>
                 @endif
@@ -118,10 +186,11 @@
                     </button>
                     <!-- Dropdown Menu -->
                     <div id="dropdownMenu"
-                        class="absolute right-0 mt-2 w-40 md:w-48 bg-white text-black rounded shadow hidden">
+                        class="absolute right-0 mt-2 w-28 md:w-36 bg-orange-500 text-white rounded shadow hidden">
                         <form action="{{ route('logout') }}" method="POST" class="block">
                             @csrf
-                            <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-200">Logout</button>
+                            <button type="submit"
+                                class="w-full text-left px-4 py-2 hover:bg-white hover:text-orange-500">Logout</button>
                         </form>
                     </div>
                 </div>
@@ -135,55 +204,89 @@
     </div>
 
     <script>
-        // Script untuk tombol hamburger dan dropdown
-        document.addEventListener('DOMContentLoaded', function() {
-            const hamburger = document.getElementById('hamburger');
-            const closeSidebar = document.getElementById('closeSidebar');
-            const sidebar = document.getElementById('sidebar');
+        document.addEventListener("DOMContentLoaded", function() {
+            const hamburger = document.getElementById("hamburger");
+            const closeSidebar = document.getElementById("closeSidebar");
+            const sidebar = document.getElementById("sidebar");
+            const profileDropdown = document.getElementById("profileDropdown");
+            const dropdownMenu = document.getElementById("dropdownMenu");
+            const loader = document.getElementById("page-loader");
+
             const dropdowns = [{
-                    button: 'akademikDropdown',
-                    menu: 'akademikMenu'
+                    button: "akademikDropdown",
+                    menu: "akademikMenu"
                 },
                 {
-                    button: 'pagesDropdown',
-                    menu: 'pagesMenu'
+                    button: "pagesDropdown",
+                    menu: "pagesMenu"
                 },
                 {
-                    button: 'usersDropdown',
-                    menu: 'usersMenu'
-                },
+                    button: "usersDropdown",
+                    menu: "usersMenu"
+                }
             ];
-            const profileDropdown = document.getElementById('profileDropdown');
-            const dropdownMenu = document.getElementById('dropdownMenu');
 
             // Toggle sidebar
-            hamburger.addEventListener('click', function() {
-                sidebar.classList.remove('-translate-x-full');
-            });
+            hamburger?.addEventListener("click", () => sidebar.classList.remove("-translate-x-full"));
+            closeSidebar?.addEventListener("click", () => sidebar.classList.add("-translate-x-full"));
 
-            closeSidebar.addEventListener('click', function() {
-                sidebar.classList.add('-translate-x-full');
-            });
-
-            // Toggle dropdown menus
+            // Toggle dropdown menus with animation
             dropdowns.forEach(({
                 button,
                 menu
             }) => {
                 const dropdownButton = document.getElementById(button);
-                const dropdownMenu = document.getElementById(menu);
+                const dropdownContent = document.getElementById(menu);
 
-                dropdownButton?.addEventListener('click', function() {
-                    dropdownMenu.classList.toggle('hidden');
+                dropdownButton?.addEventListener("click", () => {
+                    if (dropdownContent.classList.contains("hidden")) {
+                        dropdownContent.classList.remove("hidden");
+                        dropdownContent.style.maxHeight = "0px";
+                        dropdownContent.style.opacity = "0";
+                        dropdownContent.style.transform = "translateY(-10px)";
+
+                        requestAnimationFrame(() => {
+                            dropdownContent.style.transition = "all 0.3s ease-out";
+                            dropdownContent.style.maxHeight =
+                                "300px"; // Sesuaikan dengan isi dropdown
+                            dropdownContent.style.opacity = "1";
+                            dropdownContent.style.transform = "translateY(0)";
+                        });
+                    } else {
+                        dropdownContent.style.transition = "all 0.3s ease-in";
+                        dropdownContent.style.maxHeight = "0px";
+                        dropdownContent.style.opacity = "0";
+                        dropdownContent.style.transform = "translateY(-10px)";
+
+                        setTimeout(() => {
+                            dropdownContent.classList.add("hidden");
+                        }, 300);
+                    }
                 });
             });
 
             // Toggle profile dropdown
-            profileDropdown.addEventListener('click', function() {
-                dropdownMenu.classList.toggle('hidden');
+            profileDropdown?.addEventListener("click", () => dropdownMenu?.classList.toggle("hidden"));
+
+            // Hide loader after page load
+            loader?.classList.add("opacity-0");
+            setTimeout(() => {
+                loader.style.display = "none";
+            }, 500);
+
+            // Show loader when clicking a link (except for # or _blank links)
+            document.body.addEventListener("click", function(event) {
+                const target = event.target.closest("a");
+                if (target && target.href && !target.href.includes("#") && target.target !== "_blank") {
+                    event.preventDefault();
+                    loader.style.display = "flex";
+                    loader.classList.remove("opacity-0");
+                    setTimeout(() => (window.location.href = target.href), 300);
+                }
             });
         });
     </script>
+    @stack('scripts')
 </body>
 
 </html>

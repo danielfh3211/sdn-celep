@@ -15,12 +15,16 @@ class AuthController extends Controller
     {
         // Validasi input
         $request->validate([
-            'email' => 'required|email', // Email harus valid
-            'password' => 'required|min:8', // Password minimal 8 karakter
+            'username' => 'required', // NIP/NIS
+            'password' => 'required|min:8',
+            'role' => 'required|in:siswa,guru,admin', // Role harus siswa atau guru atau admin
         ]);
 
         // Ambil kredensial dari input
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('username', 'password');
+
+        // Tambahkan kondisi role
+        $credentials['role'] = $request->role;
 
         // Cek kredensial
         if (Auth::attempt($credentials)) {
@@ -30,7 +34,7 @@ class AuthController extends Controller
 
         // Jika login gagal
         return back()->withErrors([
-            'email' => 'Email atau password salah.',
+            'username' => 'Username, password, atau role salah.',
         ])->withInput(); // Mengembalikan input sebelumnya
     }
 

@@ -11,28 +11,53 @@
             <div class="mb-4">
                 <label for="name" class="block text-sm font-medium text-gray-700">Nama</label>
                 <input type="text" name="name" id="name" value="{{ $user->name }}"
-                    class="w-full mt-1 p-2 border rounded" required>
+                    class="w-full mt-1 p-3 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('name') border-red-500 @enderror"
+                    required>
+                @error('name')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
             <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                <input type="email" name="email" id="email" value="{{ $user->email }}"
-                    class="w-full mt-1 p-2 border rounded" required>
+                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                <input type="text" name="username" id="username" value="{{ $user->username }}"
+                    class="w-full mt-1 p-3 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('username') border-red-500 @enderror"
+                    required>
+                @error('username')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
             <div class="mb-4">
                 <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
-                <select name="role" id="role" class="w-full mt-1 p-2 border rounded" required>
+                <select name="role" id="role"
+                    class="w-full mt-1 p-3 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('role') border-red-500 @enderror"
+                    required>
                     <option value="siswa" {{ $user->role === 'siswa' ? 'selected' : '' }}>Siswa</option>
                     <option value="guru" {{ $user->role === 'guru' ? 'selected' : '' }}>Guru</option>
+                    <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
                 </select>
+                @error('role')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
             <div class="mb-4">
                 <label for="password" class="block text-sm font-medium text-gray-700">Password (Opsional)</label>
-                <input type="password" name="password" id="password" class="w-full mt-1 p-2 border rounded">
+                <input type="password" name="password" id="password"
+                    class="w-full mt-1 p-3 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('password') border-red-500 @enderror">
                 <small class="text-gray-500">Kosongkan jika tidak ingin mengubah password.</small>
+                @error('password')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                Update
-            </button>
+            <div class="flex justify-end gap-2">
+                <a href="{{ url()->previous() }}"
+                    class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition duration-200">
+                    Batal
+                </a>
+                <button type="submit"
+                    class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
+                    Edit
+                </button>
+            </div>
         </form>
     </div>
 @endsection

@@ -21,26 +21,50 @@
     <form action="{{ route('login') }}" method="POST">
         @csrf
         <div class="mb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input type="email" name="email" id="email" class="w-full mt-1 p-2 border rounded" required>
+            <label for="role" class="block text-sm font-medium text-gray-700">Login Sebagai</label>
+            <select name="role" id="role" class="w-full mt-1 p-2 border rounded" required>
+                <option value="siswa">Siswa</option>
+                <option value="guru">Guru</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+        <div class="mb-4">
+            <label for="username" class="block text-sm font-medium text-gray-700">NIS/NIP</label>
+            <input type="text" name="username" id="username" class="w-full mt-1 p-2 border rounded" required>
         </div>
         <div class="mb-4">
             <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-            <input type="password" name="password" id="password" class="w-full mt-1 p-2 border rounded" required>
+            <div class="relative">
+                <input type="password" name="password" id="password" class="w-full mt-1 p-2 border rounded pr-10" required>
+                <button type="button" onclick="togglePassword()"
+                    class="absolute inset-y-0 right-2 flex items-center px-2 text-gray-600 text-sm">
+                    <i id="toggleIcon" class="fa fa-eye"></i>
+                </button>
+            </div>
         </div>
         <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">
             Login
         </button>
     </form>
-
-    {{-- Link ke Register --}}
-    <p class="text-center text-sm text-gray-600 mt-4">
-        Belum punya akun? <a href="{{ route('register') }}" class="text-green-500 hover:underline">Daftar di sini</a>
-    </p>
 @endsection
 
 @push('scripts')
     <script>
+        function togglePassword() {
+            let passwordField = document.getElementById('password');
+            let toggleIcon = document.getElementById('toggleIcon');
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                toggleIcon.classList.remove("fa-eye");
+                toggleIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordField.type = "password";
+                toggleIcon.classList.remove("fa-eye-slash");
+                toggleIcon.classList.add("fa-eye");
+            }
+        }
+
         function closePopup() {
             const popup = document.getElementById('errorPopup');
             if (popup) {

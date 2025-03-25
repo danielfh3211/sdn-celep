@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('mata_pelajarans', function (Blueprint $table) {
             $table->id();
-            $table->string('username')->unique(); // Kolom username untuk NIP/NIS
-            $table->string('name'); // Nama pengguna
-            $table->string('password'); // Password
-            $table->enum('role', ['admin', 'guru', 'siswa'])->default('siswa'); // Kolom role
+            $table->string('nama_mapel')->unique(); // Nama mapel
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('mata_pelajarans');
     }
 };

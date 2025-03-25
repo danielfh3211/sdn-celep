@@ -34,20 +34,23 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:admin,guru,siswa',
+            'username' => 'required|string|unique:users,username|max:255',
+            'password' => 'required|string|confirmed|min:8',
+            'role' => 'required|string',
         ]);
 
+        // Simpan data ke database
         User::create([
             'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'username' => $request->username,
+            'password' => bcrypt($request->password),
             'role' => $request->role,
         ]);
 
+        // Redirect dengan pesan sukses
         return redirect()->route('users.' . $request->role)->with('success', 'Akun berhasil ditambahkan.');
     }
 
@@ -63,18 +66,18 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'username' => 'required|string|max:255|unique:users,username,' . $id, // Validasi untuk kolom username
             'role' => 'required|in:siswa,guru,admin',
         ]);
 
         $user->update([
             'name' => $request->name,
-            'email' => $request->email,
+            'username' => $request->username, // Perbarui kolom username
             'role' => $request->role,
         ]);
 
         if ($request->filled('password')) {
-            $user->update(['password' => Hash::make($request->password)]);
+            $user->update(['password' => bcrypt($request->password)]);
         }
 
         return redirect()->route('users.' . $user->role)->with('success', 'User berhasil diperbarui.');

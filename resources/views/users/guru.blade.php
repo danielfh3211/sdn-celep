@@ -37,7 +37,8 @@
                     <tr>
                         <th class="border border-gray-300 px-2 md:px-4 py-2 text-left">No</th>
                         <th class="border border-gray-300 px-2 md:px-4 py-2 text-left">Nama</th>
-                        <th class="border border-gray-300 px-2 md:px-4 py-2 text-left">Email</th>
+                        <th class="border border-gray-300 px-2 md:px-4 py-2 text-left">NIP</th>
+                        <th class="border border-gray-300 px-2 md:px-4 py-2 text-left">Tanggal Dibuat</th>
                         <th class="border border-gray-300 px-2 md:px-4 py-2 text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -45,22 +46,29 @@
                     @foreach ($users as $index => $user)
                         <tr class="hover:bg-gray-100">
                             <td class="border border-gray-300 px-2 md:px-4 py-2">
-                                {{ $loop->iteration + ($users->currentPage() - 1) * $users->perPage() }}</td>
+                                {{ $loop->iteration + ($users->currentPage() - 1) * $users->perPage() }}
+                            </td>
                             <td class="border border-gray-300 px-2 md:px-4 py-2">{{ $user->name }}</td>
-                            <td class="border border-gray-300 px-2 md:px-4 py-2">{{ $user->email }}</td>
+                            <td class="border border-gray-300 px-2 md:px-4 py-2">{{ $user->username }}</td> <!-- NIP -->
+                            <td class="border border-gray-300 px-2 md:px-4 py-2">{{ $user->created_at->format('d-m-Y') }}
+                            </td>
                             <td class="border border-gray-300 px-2 md:px-4 py-2 text-center">
-                                <a href="{{ route('users.edit', $user->id) }}"
-                                    class="bg-blue-500 text-white px-2 md:px-3 py-1 rounded hover:bg-blue-600 transition duration-200 inline-flex items-center">
-                                    <i class="fas fa-edit mr-1 md:mr-2"></i> Edit
-                                </a>
-                                <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline-block">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="bg-red-500 text-white px-2 md:px-3 py-1 rounded hover:bg-red-600 transition duration-200 inline-flex items-center">
-                                        <i class="fas fa-trash-alt mr-1 md:mr-2"></i> Hapus
-                                    </button>
-                                </form>
+                                <div class="flex flex-col md:flex-row justify-center items-center gap-2">
+                                    <a href="{{ route('users.edit', $user->id) }}"
+                                        class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 transition duration-200 inline-flex items-center justify-center">
+                                        <i class="fas fa-edit mr-1 md:mr-2"></i> Edit
+                                    </a>
+                                    <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                        class="inline-block">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
+                                            class="bg-red-500 text-white px-2 md:px-3 py-1 rounded hover:bg-red-600 transition duration-200 inline-flex items-center">
+                                            <i class="fas fa-trash-alt mr-1 md:mr-2"></i> Hapus
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
