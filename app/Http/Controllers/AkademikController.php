@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\Siswa;
 use App\Models\Nilai;
 use Illuminate\Support\Facades\Response;
+use App\Exports\NilaiExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AkademikController extends Controller
 {
@@ -212,22 +214,13 @@ class AkademikController extends Controller
         return redirect()->route('akademik.input-nilai', $request->siswa_id)->with('success', 'Nilai berhasil ditambahkan.');
     }
 
-    public function downloadNilai()
+    public function downloadNilai($id)
     {
-        $nilai = Nilai::with(['siswa', 'mataPelajaran'])->get();
+        // Pastikan siswa ada
+        $siswa = Siswa::findOrFail($id);
 
-        $csvData = "Nama Siswa,Mata Pelajaran,Nilai,Semester,Tahun Ajaran\n";
-        foreach ($nilai as $item) {
-            $csvData .= "{$item->siswa->nama_siswa},{$item->mataPelajaran->nama_mapel},{$item->nilai},{$item->semester},{$item->tahun_ajaran}\n";
-        }
-
-        $fileName = "nilai_siswa_" . date('Y-m-d') . ".csv";
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => "attachment; filename=\"$fileName\"",
-        ];
-
-        return Response::make($csvData, 200, $headers);
+        $fileName = 'nilai_' . $siswa->nama_siswa . '_' . date('Y-m-d_H-i-s') . '.xlsx';
+        return Excel::download(new \App\Exports\NilaiExport([$id]), $fileName);
     }
     
     public function pilihSiswa()

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\UsersImport;
 
 class UserController extends Controller
 {
@@ -90,4 +92,20 @@ class UserController extends Controller
 
         return back()->with(['success' => 'User berhasil dihapus.', 'alert-type' => 'danger']);
     }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'excel_file' => 'required|file|mimes:xlsx,xls',
+            'role' => 'required|string'
+        ]);
+
+        try {
+            Excel::import(new UsersImport($request->role), $request->file('excel_file'));
+            return redirect()->route('users.' . $request->role)->with('success', 'Import akun berhasil!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan saat import: ' . $e->getMessage());
+        }
+    }
+    
 }

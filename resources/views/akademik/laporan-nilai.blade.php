@@ -16,10 +16,15 @@
                     class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-200">
                     Kembali
                 </a>
-                <a href="{{ route('akademik.download-nilai') }}"
-                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200">
-                    Download Nilai
-                </a>
+                {{-- Tombol Download Nilai --}}
+                <form action="{{ route('akademik.download-nilai', $siswa->id) }}" method="POST" target="_blank"
+                    class="inline">
+                    @csrf
+                    <button type="submit"
+                        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200">
+                        Download Nilai
+                    </button>
+                </form>
             </div>
         </div>
 

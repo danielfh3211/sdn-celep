@@ -30,8 +30,20 @@
         </div>
 
         {{-- Data Nilai --}}
-        <div>
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">Data Nilai</h2>
+        <div class="mb-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">Data Nilai</h2>
+
+                {{-- Tombol Download Nilai --}}
+                <form action="{{ route('akademik.download-nilai', $siswa->id) }}" method="POST" target="_blank">
+                    @csrf
+                    <button type="submit"
+                        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200">
+                        Download Nilai
+                    </button>
+                </form>
+            </div>
+
             <table class="table-auto w-full border-collapse border border-gray-300 text-sm md:text-base">
                 <thead class="bg-blue-950 text-white">
                     <tr>
@@ -53,5 +65,6 @@
                 </tbody>
             </table>
         </div>
+
     </div>
 @endsection

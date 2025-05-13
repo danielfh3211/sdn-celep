@@ -9,54 +9,11 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://kit.fontawesome.com/135aca43fe.js" crossorigin="anonymous"></script>
-<<<<<<< HEAD
-
-    <style>
-        /* Modal Animations */
-        .modal-enter {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-
-        .modal-enter-active {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .modal-exit {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .modal-exit-active {
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        /* Backdrop Blur and Transparency */
-        .backdrop-blur-sm {
-            backdrop-filter: blur(5px);
-            background-color: rgba(0, 0, 0, 0.3);
-            /* Transparansi dengan warna hitam */
-        }
-
-        .dropdown-menu {
-            overflow: hidden;
-            max-height: 0;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.3s ease-out;
-        }
-    </style>
-=======
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @stack('styles')
->>>>>>> 81270828faee1012df870654b0551cc3824d0137
 </head>
 
 <body class="bg-gray-100">

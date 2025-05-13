@@ -28,13 +28,23 @@
             </div>
             <div class="mb-4">
                 <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
-                <select name="role" id="role"
-                    class="w-full mt-1 p-3 border rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 @error('role') border-red-500 @enderror"
-                    required>
-                    <option value="siswa" {{ $user->role === 'siswa' ? 'selected' : '' }}>Siswa</option>
-                    <option value="guru" {{ $user->role === 'guru' ? 'selected' : '' }}>Guru</option>
-                    <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
-                </select>
+                <div class="relative">
+                    <select name="role" id="role"
+                        class="w-full mt-1 p-3 pr-10 border rounded-lg shadow-sm appearance-none focus:ring-blue-500 focus:border-blue-500 @error('role') border-red-500 @enderror"
+                        required>
+                        <option value="siswa" {{ $user->role === 'siswa' ? 'selected' : '' }}>Siswa</option>
+                        <option value="guru" {{ $user->role === 'guru' ? 'selected' : '' }}>Guru</option>
+                        <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
+                    </select>
+
+                    <!-- Icon panah -->
+                    <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
+                </div>
                 @error('role')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror

@@ -4,27 +4,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KomiteSekolahController;
 use App\Http\Controllers\PPDBController;
 use App\Http\Controllers\AuthController;
-// use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
-<<<<<<< HEAD
 use App\Http\Controllers\AkademikController;
 use App\Http\Controllers\SiswaController;
-=======
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\HomeController;
 use App\Models\Kepsek;
->>>>>>> 81270828faee1012df870654b0551cc3824d0137
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-// Authentication Routes
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
 
 // Protected Routes
 Route::middleware(['auth'])->group(function () {
@@ -119,14 +108,10 @@ Route::get('/kritik-saran', function () {
     return view('kritik-saran');
 });
 
-<<<<<<< HEAD
 // Login Routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-// Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-// Route::post('/register', [RegisterController::class, 'register']);
 
 // Dashboard (hanya untuk pengguna yang sudah login)
 Route::middleware(['auth'])->group(function () {
@@ -145,6 +130,8 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/{id}', [UserController::class, 'update'])->name('users.update');
             Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
             Route::get('/create', [UserController::class, 'create'])->name('users.create');
+            Route::post('/import', [UserController::class, 'import'])->name('users.import');
+            
         });
     });
 
@@ -174,8 +161,8 @@ Route::middleware(['auth'])->group(function () {
         
         Route::get('/pilih-siswa', [AkademikController::class, 'pilihSiswa'])->name('akademik.pilih-siswa');
         Route::get('/nilai-siswa/{id}', [AkademikController::class, 'nilaiSiswa'])->name('akademik.nilai-siswa');
-        Route::delete('/nilai/{id}', [AkademikController::class, 'deleteNilai'])->name('akademik.delete-nilai');
-        Route::get('/download-nilai', [AkademikController::class, 'downloadNilai'])->name('akademik.download-nilai');
+        Route::delete('/nilai/{id}', [AkademikController::class, 'deleteNilai'])->name('akademik.delete-nilai');    
+        Route::post('/download-nilai/{id}', [AkademikController::class, 'downloadNilai'])->name('akademik.download-nilai');
     });
 
     Route::prefix('siswa')->group(function () {
@@ -187,5 +174,3 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-=======
->>>>>>> 81270828faee1012df870654b0551cc3824d0137

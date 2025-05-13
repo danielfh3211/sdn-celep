@@ -83,5 +83,50 @@
                 </button>
             </div>
         </form>
+
+        {{-- Form Import Excel --}}
+        <div class="mt-10 border-t pt-8">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-2 text-blue-900">
+                Import Akun {{ ucfirst($role) }} via Excel
+            </h2>
+            <form action="{{ route('users.import') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+                @csrf
+                <input type="hidden" name="role" value="{{ $role }}">
+                <div>
+                    <label for="excel_file" class="block text-base font-semibold text-gray-700 mb-2">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 10l5 5 5-5"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15V3"></path>
+                            </svg>
+                            File Excel
+                        </span>
+                    </label>
+                    <input type="file" name="excel_file" id="excel_file" accept=".xlsx,.xls"
+                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-150 ease-in-out
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-lg file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-green-50 file:text-green-700
+                        hover:file:bg-green-100
+                        @error('excel_file') border-red-500 focus:ring-red-500 focus:border-red-500 @enderror"
+                        required>
+                    @error('excel_file')
+                        <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
+                    @enderror
+                    <p class="text-xs text-gray-500 mt-2">Format kolom: <span class="font-semibold">nama</span>, <span
+                            class="font-semibold">username/nip/nis</span>, <span class="font-semibold">password</span></p>
+                </div>
+                <div class="flex justify-center">
+                    <button type="submit"
+                        class="inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-700 text-white px-8 py-2 rounded-lg font-semibold shadow hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-green-400 transition duration-200">
+                        Import Excel
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 @endsection

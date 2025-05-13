@@ -84,25 +84,6 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function() {
-            $('#dataTable').DataTable({
-                responsive: true,
-                language: {
-                    search: "Cari:",
-                    lengthMenu: "Tampilkan _MENU_ data",
-                    info: "Menampilkan _START_ hingga _END_ dari _TOTAL_ data",
-                    paginate: {
-                        first: "Awal",
-                        last: "Akhir",
-                        next: "Berikutnya",
-                        previous: "Sebelumnya"
-                    }
-                },
-                paging: false, // Nonaktifkan pagination bawaan DataTables
-                info: false // Nonaktifkan informasi bawaan DataTables
-            });
-        });
-
         function confirmDelete(userId) {
             if (confirm('Apakah Anda yakin ingin menghapus akun ini?')) {
                 document.getElementById('delete-form-' + userId).submit();

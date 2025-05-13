@@ -80,24 +80,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#dataTable').DataTable({
-                responsive: true,
-                language: {
-                    search: "Cari:",
-                    lengthMenu: "Tampilkan _MENU_ data",
-                    info: "Menampilkan _START_ hingga _END_ dari _TOTAL_ data",
-                    paginate: {
-                        first: "Awal",
-                        last: "Akhir",
-                        next: "Berikutnya",
-                        previous: "Sebelumnya"
-                    }
-                }
-            });
-        });
-    </script>
-@endpush
